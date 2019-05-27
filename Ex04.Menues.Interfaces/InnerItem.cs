@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex04.Menus.Interfaces
 {
-    public class InnerItem : MenuItem
+    internal class InnerItem : MenuItem
     {
         private Dictionary<int, MenuItem> m_Children;
 

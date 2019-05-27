@@ -9,12 +9,13 @@ namespace Ex04.Menus.Interfaces
         private const int k_ExitBackSerialNumber = 0;
         private const string k_Exit = "Exit";
         private const string k_Back = "Back";
-        public MenuItem m_CurrentItem;
+        private MenuItem m_CurrentItem;
         private bool m_ExitProgram = false;
-        private Dictionary<string, MenuItem> m_MenuItems = new Dictionary<string, MenuItem>();
+        private Dictionary<string, MenuItem> m_MenuItems;
 
         public MainMenu(string i_Header)
         {
+            m_MenuItems = new Dictionary<string, MenuItem>();
             m_CurrentItem = new InnerItem(i_Header, 0, null);
             m_MenuItems[i_Header] = m_CurrentItem;
         }
@@ -22,6 +23,11 @@ namespace Ex04.Menus.Interfaces
         public void AddNewMenuItemUnder(string i_ParentTitle, string i_TitleOfNewNode)
         {
             addItem(i_ParentTitle, i_TitleOfNewNode); 
+        }
+
+        public void AddNewOperationItemUnder(string i_ParentTitle, string i_TitleOfNewNode, IClickListener i_ClickListener)
+        {
+            addItem(i_ParentTitle, i_TitleOfNewNode, i_ClickListener);
         }
 
         private void addItem(string i_ParentTitle, string i_TitleOfNewNode, IClickListener i_ClickListener = null)
@@ -39,6 +45,7 @@ namespace Ex04.Menus.Interfaces
                     {
                         newNode = new LeafItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle], i_ClickListener);
                     }
+
                     (m_MenuItems[i_ParentTitle] as InnerItem).Add(newNode);
                     m_MenuItems[i_TitleOfNewNode] = newNode;
                 }
@@ -51,12 +58,6 @@ namespace Ex04.Menus.Interfaces
             {
                 throw new ArgumentException(string.Format("Error:Could not found {0} ", i_ParentTitle));
             }
-        }
-
-        public void AddNewOperationItemUnder(string i_ParentTitle, string i_TitleOfNewNode, IClickListener i_ClickListener)
-        {
-
-            addItem(i_ParentTitle, i_TitleOfNewNode, i_ClickListener);
         }
 
         public void Show()
@@ -72,9 +73,7 @@ namespace Ex04.Menus.Interfaces
         private void printCurrentMenu()
         {
             Console.Clear();
-
             Console.Write("{0} {1}{2}{3}", m_CurrentItem.Level, m_CurrentItem.Title, Environment.NewLine, Environment.NewLine);
-
             Console.WriteLine(
                     "{0}. {1}",
                     k_ExitBackSerialNumber,

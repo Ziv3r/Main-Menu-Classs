@@ -15,13 +15,13 @@ namespace Ex04.Menus.Test
             if(i_InvokerUniqueKey == k_ShowDate)
             {
                 Console.WriteLine(DateTime.Now.ToString("dd/MM/yyyy"));
-                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine(DateTime.Now.ToString("HH:mm"));
-                Console.ReadLine();
             }
+
+                Console.ReadLine();
         }
     }
 }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ex04.Menus.Interfaces
+namespace Ex04.Menus.Delegates
 {
-    public class InnerItem : MenuItem
+    internal class InnerItem : MenuItem
     {
-        private Dictionary<int, MenuItem> m_Children ;
+        private Dictionary<int, MenuItem> m_Children;
 
-        public InnerItem(string i_Title,int i_Level , MenuItem i_Parent)
+        public InnerItem(string i_Title, int i_Level, MenuItem i_Parent)
             : base(i_Title, i_Level, i_Parent)
         {
             m_Children = new Dictionary<int, MenuItem>();
@@ -34,9 +34,7 @@ namespace Ex04.Menus.Interfaces
         {
             StringBuilder menuLines = new StringBuilder();
 
-            menuLines.Append(this.Level + " " + this.Title + Environment.NewLine);
-
-            foreach(KeyValuePair<int,MenuItem> menuLine in m_Children)
+            foreach(KeyValuePair<int, MenuItem> menuLine in m_Children)
             {
                 menuLines.Append(menuLine.Key.ToString() + ". "  + menuLine.Value.Title + Environment.NewLine); 
             }
@@ -45,4 +43,3 @@ namespace Ex04.Menus.Interfaces
         }
     }
 }
-

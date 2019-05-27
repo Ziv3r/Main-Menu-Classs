@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ex04.Menus.Interfaces
+namespace Ex04.Menus.Delegates
 {
     public abstract class MenuItem
     {
@@ -16,6 +16,7 @@ namespace Ex04.Menus.Interfaces
             r_Level = i_Level;
             r_Parent = i_Parent;
         }
+
         public string Title
         {
             get { return r_Title; }
@@ -25,6 +26,7 @@ namespace Ex04.Menus.Interfaces
         {
             get { return r_Level; }
         }
+
         public MenuItem Parent
         {
             get { return r_Parent; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex04.Menus.Interfaces
 {
-    public class LeafItem : MenuItem
+    internal class LeafItem : MenuItem
     {
         private readonly IClickListener r_ClickListener;
 

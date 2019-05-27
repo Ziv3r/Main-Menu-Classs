@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{79B2FAF1-7C3F-447F-9EDA-6F419ACC787B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Project1</RootNamespace>
-    <AssemblyName>Project1</AssemblyName>
+    <ProjectGuid>{5009B1AB-CD5D-4864-9C75-DD930B5EAD37}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Ex04.Menus.Delegates</RootNamespace>
+    <AssemblyName>Ex04.Menus.Delegates</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,5 +31,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="InnerItem.cs" />
+    <Compile Include="LeafItem.cs" />
+    <Compile Include="MainMenu.cs" />
+    <Compile Include="MenuItem.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
