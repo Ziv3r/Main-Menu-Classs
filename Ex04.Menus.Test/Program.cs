@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Ex04.Menues.Interfaces;
+using Ex04.Menus.Interfaces;
 
 namespace Ex04.Menus.Test
 {
     public class Program
     {
-        static public void Main()
+        public static void Main()
         {
             DateAndTime dateAndTime = new DateAndTime();
             VersionAndDigitsTest versionAndDigits = new VersionAndDigitsTest();
@@ -25,12 +25,3 @@ namespace Ex04.Menus.Test
         }
     }
 }
-
-        //{
-        //    IClickListener listener = new DateAndTime();
-        //    listener.OnClick("Show Date");
-        //    listener.OnClick("Show Time");
-
-        //    IClickListener listener2 = new VersionAndDigitsTest();
-        //    listener2.OnClick("Count Digits");
-        //    listener2.OnClick("Show Version");

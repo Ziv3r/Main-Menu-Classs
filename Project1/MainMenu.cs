@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ex04.Menues.Interfaces
+namespace Ex04.Menus.Interfaces
 {
     public class MainMenu
     {
@@ -63,16 +63,22 @@ namespace Ex04.Menues.Interfaces
         {
             while (!m_ExitProgram)
             {
-                Console.Clear();
                 printCurrentMenu();
                 int choice = getKeyInRangeFromUser((m_CurrentItem as InnerItem).Children.Count);
                 handleChoice(choice);
             }
         }
+
         private void printCurrentMenu()
         {
+            Console.Clear();
+
             Console.WriteLine(m_CurrentItem.ToString());
-            Console.WriteLine(String.Format("{0}. {1}", (m_CurrentItem as InnerItem).Children.Count + 1, m_CurrentItem.Level == 0 ? k_Exit : k_Back));
+            Console.WriteLine(
+                String.Format(
+                    "{0}. {1}",
+                    (m_CurrentItem as InnerItem).Children.Count + 1,
+                    m_CurrentItem.Level == 0 ? k_Exit : k_Back));
         }
         private int getKeyInRangeFromUser(int i_Range)
         {
@@ -97,7 +103,8 @@ namespace Ex04.Menues.Interfaces
         private void handleChoice(int i_Choice)
         {
             Console.Clear();
-            if (i_Choice == (m_CurrentItem as InnerItem).Children.Count + 1)
+            InnerItem currInnerItem = m_CurrentItem as InnerItem;
+            if (i_Choice == currInnerItem.Children.Count + 1)
             {
                 if (m_CurrentItem.Level == 0)
                 {
@@ -110,13 +117,13 @@ namespace Ex04.Menues.Interfaces
             }
             else
             {
-                if ((m_CurrentItem as InnerItem).Children[i_Choice] is InnerItem )
+                if (currInnerItem.Children[i_Choice] is InnerItem )
                 {
-                    m_CurrentItem = (m_CurrentItem as InnerItem).Children[i_Choice];
+                    m_CurrentItem = currInnerItem.Children[i_Choice];
                 }
                 else
                 {
-                    ((m_CurrentItem as InnerItem).Children[i_Choice] as LeafItem).Listener.OnClick(m_CurrentItem.Title);
+                    (currInnerItem.Children[i_Choice] as LeafItem).Listener.OnClick(m_CurrentItem.Title);
                 }
             }
         }
