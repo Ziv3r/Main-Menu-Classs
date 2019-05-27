@@ -9,6 +9,7 @@ namespace Ex04.Menus.Test
     {
         public const string k_CountDigits = "Count Digits";
         public const string k_TxtToShowWhenShowVersion = "2.4.2.19: Version";
+
         public void OnClick(string i_InvokerUniqueKey)
         {
             if(i_InvokerUniqueKey.Equals(k_CountDigits))
@@ -21,6 +22,8 @@ namespace Ex04.Menus.Test
             {
                 Console.WriteLine(k_TxtToShowWhenShowVersion);
             }
+
+                Console.ReadLine();
         }
 
         private int countDigits(string i_Str)

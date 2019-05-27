@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3570DFE5-67E3-4337-A623-4EBE64B87465}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Ex04.Menus.Test</RootNamespace>
-    <AssemblyName>Ex04.Menus.Test</AssemblyName>
+    <ProjectGuid>{79B2FAF1-7C3F-447F-9EDA-6F419ACC787B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Project1</RootNamespace>
+    <AssemblyName>Project1</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,16 +31,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DateAndTime.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="VersionAndDigitsTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ex04.Menues.Interfaces\Ex04.Menues.Interfaces.csproj">
-      <Project>{79b2faf1-7c3f-447f-9eda-6f419acc787b}</Project>
-      <Name>Ex04.Menues.Interfaces</Name>
-    </ProjectReference>
+    <Compile Include="IClickListener.cs" />
+    <Compile Include="InnerItem.cs" />
+    <Compile Include="LeafItem.cs" />
+    <Compile Include="MainMenu.cs" />
+    <Compile Include="MenuItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
