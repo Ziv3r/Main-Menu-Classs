@@ -21,11 +21,24 @@ namespace Ex04.Menus.Interfaces
 
         public void AddNewMenuItemUnder(string i_ParentTitle, string i_TitleOfNewNode)
         {
+            addItem(i_ParentTitle, i_TitleOfNewNode); 
+        }
+
+        private void addItem(string i_ParentTitle, string i_TitleOfNewNode, IClickListener i_ClickListener = null)
+        {
             if (m_MenuItems.ContainsKey(i_ParentTitle))
             {
                 try
                 {
-                    MenuItem newNode = new InnerItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle]);
+                    MenuItem newNode = null;
+                    if (i_ClickListener == null)
+                    {
+                        newNode = new InnerItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle]);
+                    }
+                    else
+                    {
+                        newNode = new LeafItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle], i_ClickListener);
+                    }
                     (m_MenuItems[i_ParentTitle] as InnerItem).Add(newNode);
                     m_MenuItems[i_TitleOfNewNode] = newNode;
                 }
@@ -42,23 +55,8 @@ namespace Ex04.Menus.Interfaces
 
         public void AddNewOperationItemUnder(string i_ParentTitle, string i_TitleOfNewNode, IClickListener i_ClickListener)
         {
-            if (m_MenuItems.ContainsKey(i_ParentTitle))
-            {
-                try
-                {
-                    MenuItem newNode = new LeafItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle], i_ClickListener);
-                    (m_MenuItems[i_ParentTitle] as InnerItem).Add(newNode);
-                    m_MenuItems[i_TitleOfNewNode] = newNode;
-                }
-                catch
-                {
-                    throw new ArgumentException(string.Format("Error:Could not add new menu under {0} ", i_ParentTitle));
-                }
-            }
-            else
-            {
-                throw new ArgumentException(string.Format("Error:Could not found {0} ", i_ParentTitle));
-            }
+
+            addItem(i_ParentTitle, i_TitleOfNewNode, i_ClickListener);
         }
 
         public void Show()
