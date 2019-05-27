@@ -2,23 +2,30 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Project1
+namespace Ex04.Menues.Interfaces
 {
-    class MainMenu
+    public class MainMenu
     {
-        private MenuItem m_RootItem;
+        private const string k_Exit = "Exit";
+        private const string k_Back = "Back";
         public MenuItem m_CurrentItem;
         private bool m_ExitProgram = false;
         private Dictionary<string, MenuItem> m_MenuItems = new Dictionary<string, MenuItem>();
 
-
-        public void AddNewInnerItemUnder(string i_ParentTitle,string i_TitleOfNewNodde)
+        public MainMenu(string i_Header)
+        {
+            m_CurrentItem = new InnerItem(i_Header,0,null);
+            m_MenuItems[i_Header] = m_CurrentItem;
+        }
+        public void AddNewMenuItemUnder(string i_ParentTitle, string i_TitleOfNewNode)
         {
             if (m_MenuItems.ContainsKey(i_ParentTitle))
             {
                 try
                 {
-                (m_MenuItems[i_ParentTitle] as InnerItem).Add(new InnerItem(i_TitleOfNewNodde, m_MenuItems[i_ParentTitle]));
+                    MenuItem newNode = new InnerItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle]);
+                    (m_MenuItems[i_ParentTitle] as InnerItem).Add(newNode);
+                     m_MenuItems[i_TitleOfNewNode] = newNode;
                 }
                 catch
                 {
@@ -30,28 +37,42 @@ namespace Project1
                 throw new ArgumentException(string.Format("Error:Could not found {0} ", i_ParentTitle));
             }
         }
-        public void AddNewOperationItemUnder(string i_ParentTitle, string i_TitleOfNewNodde)
+
+        public void AddNewOperationItemUnder(string i_ParentTitle, string i_TitleOfNewNode, IClickListener i_ClickListener)
         {
             if (m_MenuItems.ContainsKey(i_ParentTitle))
             {
-                (m_MenuItems[i_ParentTitle] as InnerItem).Add(new LeafItem(i_TitleOfNewNodde , m_MenuItems[i_ParentTitle]))
+                try
+                {
+                    MenuItem newNode = new LeafItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle], i_ClickListener);
+                    (m_MenuItems[i_ParentTitle] as InnerItem).Add(newNode);
+                    m_MenuItems[i_TitleOfNewNode] = newNode;
+                }
+                catch
+                {
+                    throw new ArgumentException(string.Format("Error:Could not add new menu under {0} ", i_ParentTitle));
+                }
             }
             else
             {
                 throw new ArgumentException(string.Format("Error:Could not found {0} ", i_ParentTitle));
             }
-
-
         }
+
         public void Show()
         {
             while (!m_ExitProgram)
             {
                 Console.Clear();
-                m_CurrentItem.ToString();
+                printCurrentMenu();
                 int choice = getKeyInRangeFromUser((m_CurrentItem as InnerItem).Children.Count);
                 handleChoice(choice);
             }
+        }
+        private void printCurrentMenu()
+        {
+            Console.WriteLine(m_CurrentItem.ToString());
+            Console.WriteLine(String.Format("{0}. {1}", (m_CurrentItem as InnerItem).Children.Count + 1, m_CurrentItem.Level == 0 ? k_Exit : k_Back));
         }
         private int getKeyInRangeFromUser(int i_Range)
         {
@@ -61,7 +82,7 @@ namespace Project1
 
             while (!int.TryParse(choice, out choosenNumber) || !isInRange(choosenNumber, i_Range))
             {
-                Console.WriteLine("please enter a number in range {0} to {1}:" ,1,i_Range);
+                Console.WriteLine("please enter a number in range {0} to {1}:", 1, i_Range);
                 choice = Console.ReadLine();
             }
 
@@ -76,13 +97,27 @@ namespace Project1
         private void handleChoice(int i_Choice)
         {
             Console.Clear();
-            if (m_CurrentItem is InnerItem)
+            if (i_Choice == (m_CurrentItem as InnerItem).Children.Count + 1)
             {
-                m_CurrentItem = (m_CurrentItem as InnerItem).Children[i_Choice];
+                if (m_CurrentItem.Level == 0)
+                {
+                    m_ExitProgram = true;
+                }
+                else
+                {
+                    m_CurrentItem = m_CurrentItem.Parent;
+                }
             }
             else
             {
-                (m_CurrentItem as LeafItem).Listener.OnClick(m_CurrentItem.Title);
+                if ((m_CurrentItem as InnerItem).Children[i_Choice] is InnerItem )
+                {
+                    m_CurrentItem = (m_CurrentItem as InnerItem).Children[i_Choice];
+                }
+                else
+                {
+                    ((m_CurrentItem as InnerItem).Children[i_Choice] as LeafItem).Listener.OnClick(m_CurrentItem.Title);
+                }
             }
         }
     }

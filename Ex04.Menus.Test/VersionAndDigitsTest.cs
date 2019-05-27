@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Ex04.Menues.Interfaces;
 
 namespace Ex04.Menus.Test
 {
-    public class VersionAndDigitsTest : IEventListener
+    public class VersionAndDigitsTest : IClickListener
     {
         public const string k_CountDigits = "Count Digits";
         public const string k_TxtToShowWhenShowVersion = "2.4.2.19: Version";
-        public void onClick(string i_InvokerUniqueKey)
+        public void OnClick(string i_InvokerUniqueKey)
         {
             if(i_InvokerUniqueKey.Equals(k_CountDigits))
             {
