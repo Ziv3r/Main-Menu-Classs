@@ -2,6 +2,6 @@
 {
     public interface IClickListener
     {
-        void OnClick(string i_Title);
+        void OnClick();
     }
 }

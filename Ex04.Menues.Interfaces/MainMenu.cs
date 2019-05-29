@@ -9,55 +9,70 @@ namespace Ex04.Menus.Interfaces
         private const int k_ExitBackSerialNumber = 0;
         private const string k_Exit = "Exit";
         private const string k_Back = "Back";
+        private readonly int r_rootHash;
         private MenuItem m_CurrentItem;
         private bool m_ExitProgram = false;
-        private Dictionary<string, MenuItem> m_MenuItems;
+        private Dictionary<int, MenuItem> m_MenuItems;
 
         public MainMenu(string i_Header)
         {
-            m_MenuItems = new Dictionary<string, MenuItem>();
+            m_MenuItems = new Dictionary<int, MenuItem>();
             m_CurrentItem = new InnerItem(i_Header, 0, null);
-            m_MenuItems[i_Header] = m_CurrentItem;
+            r_rootHash = m_CurrentItem.GetHashCode();
+            m_MenuItems[r_rootHash] = m_CurrentItem;
         }
 
-        public void AddNewMenuItemUnder(string i_ParentTitle, string i_TitleOfNewNode)
+        public int RootHashCode
         {
-            addItem(i_ParentTitle, i_TitleOfNewNode); 
+            get { return r_rootHash; }
         }
 
-        public void AddNewOperationItemUnder(string i_ParentTitle, string i_TitleOfNewNode, IClickListener i_ClickListener)
+        // the following 2 methods return a unique key for the added item.
+        // that key is for the user to know that the current item was chosen at a given time.
+
+        public int AddNewMenuItemUnder(int i_ParentHashCode, string i_TitleOfNewNode)
         {
-            addItem(i_ParentTitle, i_TitleOfNewNode, i_ClickListener);
+            return addItem(i_ParentHashCode, i_TitleOfNewNode); 
         }
 
-        private void addItem(string i_ParentTitle, string i_TitleOfNewNode, IClickListener i_ClickListener = null)
+        public int AddNewOperationItemUnder(int i_ParentHashCode, string i_TitleOfNewNode, IClickListener i_ClickListener)
         {
-            if (m_MenuItems.ContainsKey(i_ParentTitle))
+            return addItem(i_ParentHashCode, i_TitleOfNewNode, i_ClickListener);
+        }
+
+        private int addItem(int i_ParentHashCode, string i_TitleOfNewNode, IClickListener i_ClickListener = null)
+        {
+            int newNodeHash = -1;
+
+            if (m_MenuItems.ContainsKey(i_ParentHashCode))
             {
                 try
                 {
                     MenuItem newNode = null;
                     if (i_ClickListener == null)
                     {
-                        newNode = new InnerItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle]);
+                        newNode = new InnerItem(i_TitleOfNewNode, m_MenuItems[i_ParentHashCode]);
                     }
                     else
                     {
-                        newNode = new LeafItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle], i_ClickListener);
+                        newNode = new LeafItem(i_TitleOfNewNode, m_MenuItems[i_ParentHashCode], i_ClickListener);
                     }
 
-                    (m_MenuItems[i_ParentTitle] as InnerItem).Add(newNode);
-                    m_MenuItems[i_TitleOfNewNode] = newNode;
+                    (m_MenuItems[i_ParentHashCode] as InnerItem).Add(newNode);
+                    newNodeHash = newNode.GetHashCode();
+                    m_MenuItems[newNodeHash] = newNode;
                 }
                 catch
                 {
-                    throw new ArgumentException(string.Format("Error:Could not add new menu under {0} ", i_ParentTitle));
+                    throw new ArgumentException(string.Format("Error:Could not add new menu under {0} ", i_ParentHashCode));
                 }
             }
             else
             {
-                throw new ArgumentException(string.Format("Error:Could not found {0} ", i_ParentTitle));
+                throw new ArgumentException(string.Format("Error:Could not found {0} ", i_ParentHashCode));
             }
+
+            return newNodeHash;
         }
 
         public void Show()
@@ -124,7 +139,7 @@ namespace Ex04.Menus.Interfaces
                 }
                 else
                 {
-                    (currInnerItem.Children[i_Choice] as LeafItem).Listener.OnClick(currInnerItem.Children[i_Choice].Title);
+                    (currInnerItem.Children[i_Choice] as LeafItem).Listener.OnClick();
                 }
             }
         }

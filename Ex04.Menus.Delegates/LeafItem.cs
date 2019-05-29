@@ -4,11 +4,13 @@ using System.Text;
 
 namespace Ex04.Menus.Delegates
 {
+    public delegate void Action();
+
     internal class LeafItem : MenuItem
     {
-        public event Action<string> OnClick;
+        public event Action OnClick;
 
-        public LeafItem(string i_Title, MenuItem i_Parent, Action<string> i_ToInvoke)
+        public LeafItem(string i_Title, MenuItem i_Parent, Action i_ToInvoke)
             : base(i_Title, i_Parent.Level + 1, i_Parent)
         {
             OnClick += i_ToInvoke;
@@ -18,7 +20,7 @@ namespace Ex04.Menus.Delegates
         {
             if (OnClick != null)
             {
-                OnClick.Invoke(Title);
+                OnClick.Invoke();
             }
         }
     }

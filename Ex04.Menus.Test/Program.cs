@@ -11,16 +11,18 @@ namespace Ex04.Menus.Test
         {
             // interfaces Part :
             Interfaces.MainMenu mainMenu = new Interfaces.MainMenu("Main Menu");
-            DateAndTime dateAndTime = new DateAndTime();
-            VersionAndDigitsTest versionAndDigits = new VersionAndDigitsTest();
-            mainMenu.AddNewMenuItemUnder("Main Menu", "Show Date/Time");
-            mainMenu.AddNewMenuItemUnder("Main Menu", "Version and Digits");
+            InterfaceTest.Date date = new InterfaceTest.Date();
+            InterfaceTest.Time time = new InterfaceTest.Time();
+            InterfaceTest.Version version = new InterfaceTest.Version();
+            InterfaceTest.CountDigits countDigits = new InterfaceTest.CountDigits();
+            int showDateAndTimeHash = mainMenu.AddNewMenuItemUnder(mainMenu.RootHashCode, "Show Date/Time");
+            int showVersionAndDigitsHash = mainMenu.AddNewMenuItemUnder(mainMenu.RootHashCode, "Version and Digits");
 
-            mainMenu.AddNewOperationItemUnder("Show Date/Time", "Show Date", dateAndTime);
-            mainMenu.AddNewOperationItemUnder("Show Date/Time", "Show Time", dateAndTime);
+            mainMenu.AddNewOperationItemUnder(showDateAndTimeHash, "Show Date", date);
+            mainMenu.AddNewOperationItemUnder(showDateAndTimeHash, "Show Time", time);
 
-            mainMenu.AddNewOperationItemUnder("Version and Digits", "Count Digits", versionAndDigits);
-            mainMenu.AddNewOperationItemUnder("Version and Digits", "Show Version", versionAndDigits);
+            mainMenu.AddNewOperationItemUnder(showVersionAndDigitsHash, "Count Digits", countDigits);
+            mainMenu.AddNewOperationItemUnder(showVersionAndDigitsHash, "Show Version", version);
 
             mainMenu.Show();
 
@@ -30,15 +32,14 @@ namespace Ex04.Menus.Test
             // delegate Part:
             Delegates.MainMenu mainMenuDelegates = new Delegates.MainMenu("Main Menu");
             DelegatesTest dateAndTimeDelegates = new DelegatesTest();
-            VersionAndDigitsTest versionAndDigitsDelegates = new VersionAndDigitsTest();
-            mainMenuDelegates.AddNewMenuItemUnder("Main Menu", "Show Date/Time");
-            mainMenuDelegates.AddNewMenuItemUnder("Main Menu", "Version and Digits");
+            int showDateTimeHashCode = mainMenuDelegates.AddNewMenuItemUnder(mainMenuDelegates.RootHashCode, "Show Date/Time");
+            int showVersionAndDigits = mainMenuDelegates.AddNewMenuItemUnder(mainMenuDelegates.RootHashCode, "Version and Digits");
 
-            mainMenuDelegates.AddNewOperationItemUnder("Show Date/Time", "Show Date", dateAndTimeDelegates.ShowDate);
-            mainMenuDelegates.AddNewOperationItemUnder("Show Date/Time", "Show Time", dateAndTimeDelegates.ShowTime);
+            mainMenuDelegates.AddNewOperationItemUnder(showDateTimeHashCode, "Show Date", dateAndTimeDelegates.ShowDate);
+            mainMenuDelegates.AddNewOperationItemUnder(showDateTimeHashCode, "Show Time", dateAndTimeDelegates.ShowTime);
 
-            mainMenuDelegates.AddNewOperationItemUnder("Version and Digits", "Count Digits", dateAndTimeDelegates.CountDigits);
-            mainMenuDelegates.AddNewOperationItemUnder("Version and Digits", "Show Version", dateAndTimeDelegates.ShowVersion);
+            mainMenuDelegates.AddNewOperationItemUnder(showVersionAndDigits, "Count Digits", dateAndTimeDelegates.CountDigits);
+            mainMenuDelegates.AddNewOperationItemUnder(showVersionAndDigits, "Show Version", dateAndTimeDelegates.ShowVersion);
 
             mainMenuDelegates.Show();
         } 

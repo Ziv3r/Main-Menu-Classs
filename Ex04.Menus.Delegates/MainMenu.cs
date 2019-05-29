@@ -9,54 +9,65 @@ namespace Ex04.Menus.Delegates
         private const int k_ExitBackSerialNumber = 0;
         private const string k_Exit = "Exit";
         private const string k_Back = "Back";
+        private readonly int r_RootHashCode;
         private MenuItem m_CurrentItem;
         private bool m_ExitProgram = false;
-        private Dictionary<string, MenuItem> m_MenuItems = new Dictionary<string, MenuItem>();
+        private Dictionary<int, MenuItem> m_MenuItems = new Dictionary<int, MenuItem>();
 
         public MainMenu(string i_Header)
         {
             m_CurrentItem = new InnerItem(i_Header, 0, null);
-            m_MenuItems[i_Header] = m_CurrentItem;
+            r_RootHashCode = m_CurrentItem.GetHashCode();
+            m_MenuItems[r_RootHashCode] = m_CurrentItem;
         }
 
-        public void AddNewMenuItemUnder(string i_ParentTitle, string i_TitleOfNewNode)
+        public int RootHashCode
         {
-            addItem(i_ParentTitle, i_TitleOfNewNode); 
+            get { return r_RootHashCode; }
         }
 
-        private void addItem(string i_ParentTitle, string i_TitleOfNewNode, Action<string> i_ToInvoke = null)
+        public int AddNewMenuItemUnder(int i_ParentHashCode, string i_TitleOfNewNode)
         {
-            if (m_MenuItems.ContainsKey(i_ParentTitle))
+            return addItem(i_ParentHashCode, i_TitleOfNewNode); 
+        }
+
+        private int addItem(int i_ParentHashCode, string i_TitleOfNewNode, Action i_ToInvoke = null)
+        {
+            int newNodeHashCode = -1;
+            if (m_MenuItems.ContainsKey(i_ParentHashCode))
             {
                 try
                 {
                     MenuItem newNode = null;
                     if (i_ToInvoke == null)
                     {
-                        newNode = new InnerItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle]);
+                        newNode = new InnerItem(i_TitleOfNewNode, m_MenuItems[i_ParentHashCode]);
                     }
                     else
                     {
-                        newNode = new LeafItem(i_TitleOfNewNode, m_MenuItems[i_ParentTitle], i_ToInvoke);
+                        newNode = new LeafItem(i_TitleOfNewNode, m_MenuItems[i_ParentHashCode], i_ToInvoke);
                     }
 
-                    (m_MenuItems[i_ParentTitle] as InnerItem).Add(newNode);
-                    m_MenuItems[i_TitleOfNewNode] = newNode;
+                    newNodeHashCode = newNode.GetHashCode();
+                    (m_MenuItems[i_ParentHashCode] as InnerItem).Add(newNode);
+                    m_MenuItems[newNodeHashCode] = newNode;
                 }
                 catch
                 {
-                    throw new ArgumentException(string.Format("Error:Could not add new menu under {0} ", i_ParentTitle));
+                    throw new ArgumentException(string.Format("Error:Could not add new menu under {0} ", i_ParentHashCode));
                 }
             }
             else
             {
-                throw new ArgumentException(string.Format("Error:Could not found {0} ", i_ParentTitle));
+                throw new ArgumentException(string.Format("Error:Could not found {0} ", i_ParentHashCode));
             }
+
+            return newNodeHashCode;
         }
 
-        public void AddNewOperationItemUnder(string i_ParentTitle, string i_TitleOfNewNode, Action<string> i_ToInvoke)
+        public int AddNewOperationItemUnder(int i_ParentHashCode, string i_TitleOfNewNode, Action i_ToInvoke)
         {
-            addItem(i_ParentTitle, i_TitleOfNewNode, i_ToInvoke);
+            return addItem(i_ParentHashCode, i_TitleOfNewNode, i_ToInvoke);
         }
 
         public void Show()
