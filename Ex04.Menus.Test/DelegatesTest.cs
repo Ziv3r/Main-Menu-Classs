@@ -8,19 +8,19 @@ namespace Ex04.Menus.Test
     {
         public const string k_TxtToShowWhenShowVersion = "2.4.2.19: Version";
 
-        public void ShowDate()
+        public void ShowDate_Click()
         {
             Console.WriteLine(DateTime.Now.ToString("dd/MM/yyyy"));
             Console.ReadLine();
         }
 
-        public void ShowTime()
+        public void ShowTime_Click()
         {
             Console.WriteLine(DateTime.Now.ToString("HH:mm"));
             Console.ReadLine();
         }
 
-        public void CountDigits()
+        public void CountDigits_Click()
         {
             Console.WriteLine("Enter a sentence:");
             string str = Console.ReadLine();
@@ -42,7 +42,7 @@ namespace Ex04.Menus.Test
             return count;
         }
 
-        public void ShowVersion()
+        public void ShowVersion_Click()
         {
             Console.WriteLine(k_TxtToShowWhenShowVersion);
             Console.ReadLine();

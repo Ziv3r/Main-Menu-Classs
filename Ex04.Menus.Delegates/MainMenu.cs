@@ -26,6 +26,8 @@ namespace Ex04.Menus.Delegates
             get { return r_RootHashCode; }
         }
 
+        // the following 2 methods return a unique key for the added item.
+        // that key is for the user to know that the current item was chosen at a given time.
         public int AddNewMenuItemUnder(int i_ParentHashCode, string i_TitleOfNewNode)
         {
             return addItem(i_ParentHashCode, i_TitleOfNewNode); 

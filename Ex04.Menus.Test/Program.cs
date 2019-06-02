@@ -9,7 +9,12 @@ namespace Ex04.Menus.Test
     {
         public static void Main()
         {
-            // interfaces Part :
+            interfaceMenu();
+            delegateMenu();
+        }
+
+        private static void interfaceMenu()
+        {
             Interfaces.MainMenu mainMenu = new Interfaces.MainMenu("Main Menu");
             InterfaceTest.Date date = new InterfaceTest.Date();
             InterfaceTest.Time time = new InterfaceTest.Time();
@@ -28,20 +33,22 @@ namespace Ex04.Menus.Test
 
             Console.WriteLine("second part");
             Console.ReadLine();
+        }
 
-            // delegate Part:
+        private static void delegateMenu()
+        {
             Delegates.MainMenu mainMenuDelegates = new Delegates.MainMenu("Main Menu");
             DelegatesTest dateAndTimeDelegates = new DelegatesTest();
             int showDateTimeHashCode = mainMenuDelegates.AddNewMenuItemUnder(mainMenuDelegates.RootHashCode, "Show Date/Time");
             int showVersionAndDigits = mainMenuDelegates.AddNewMenuItemUnder(mainMenuDelegates.RootHashCode, "Version and Digits");
 
-            mainMenuDelegates.AddNewOperationItemUnder(showDateTimeHashCode, "Show Date", dateAndTimeDelegates.ShowDate);
-            mainMenuDelegates.AddNewOperationItemUnder(showDateTimeHashCode, "Show Time", dateAndTimeDelegates.ShowTime);
+            mainMenuDelegates.AddNewOperationItemUnder(showDateTimeHashCode, "Show Date", dateAndTimeDelegates.ShowDate_Click);
+            mainMenuDelegates.AddNewOperationItemUnder(showDateTimeHashCode, "Show Time", dateAndTimeDelegates.ShowTime_Click);
 
-            mainMenuDelegates.AddNewOperationItemUnder(showVersionAndDigits, "Count Digits", dateAndTimeDelegates.CountDigits);
-            mainMenuDelegates.AddNewOperationItemUnder(showVersionAndDigits, "Show Version", dateAndTimeDelegates.ShowVersion);
+            mainMenuDelegates.AddNewOperationItemUnder(showVersionAndDigits, "Count Digits", dateAndTimeDelegates.CountDigits_Click);
+            mainMenuDelegates.AddNewOperationItemUnder(showVersionAndDigits, "Show Version", dateAndTimeDelegates.ShowVersion_Click);
 
             mainMenuDelegates.Show();
-        } 
+        }
     }
 }
